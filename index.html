@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced IP Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        // Custom Tailwind Config for Dark Mode
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 font-sans text-slate-900 dark:text-slate-100 transition-colors duration-300">
+
+    <div class="max-w-5xl mx-auto px-4 py-8">
+        <div class="flex justify-between items-center mb-10">
+            <div>
+                <h1 class="text-3xl font-extrabold text-blue-600 dark:text-blue-400">IP Intelligence Pro</h1>
+                <p class="text-slate-500 dark:text-slate-400">Professional IP Tracking & History</p>
+            </div>
+            
+            <button onclick="toggleTheme()" class="relative inline-flex items-center h-8 rounded-full w-14 bg-slate-300 dark:bg-blue-600 transition-colors focus:outline-none shadow-inner">
+                <span id="theme-icon" class="inline-block w-6 h-6 transform bg-white rounded-full transition-transform translate-x-1 dark:translate-x-7 flex items-center justify-center shadow">
+                    <i class="fas fa-sun text-yellow-500 text-xs dark:hidden"></i>
+                    <i class="fas fa-moon text-blue-800 text-xs hidden dark:block"></i>
+                </span>
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700">
+                    <div class="flex flex-col md:flex-row gap-3">
+                        <input type="text" id="ipInput" placeholder="Enter IP or Domain..." 
+                            class="flex-1 p-3 bg-slate-50 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all dark:placeholder-slate-400">
+                        <button onclick="validateAndFetch()" 
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-bold transition-transform active:scale-95 shadow-lg shadow-blue-500/30">
+                            Lookup
+                        </button>
+                    </div>
+                    <p id="errorMsg" class="text-red-500 text-xs mt-2 hidden italic">Invalid IP format. Please try again.</p>
+                </div>
+
+                <div id="loader" class="hidden py-20 text-center">
+                    <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-blue-500 border-t-transparent"></div>
+                </div>
+                
+                <div id="resultCard" class="hidden bg-white dark:bg-slate-800 rounded-2xl shadow-xl overflow-hidden border border-slate-200 dark:border-slate-700 animate-in fade-in slide-in-from-bottom-4">
+                    <div class="bg-slate-100 dark:bg-slate-700/50 p-4 border-b dark:border-slate-600 flex justify-between items-center">
+                        <span class="font-bold uppercase tracking-widest text-xs text-slate-500 dark:text-slate-400">Intelligence Report</span>
+                        <span id="flagWrapper"></span>
+                    </div>
+                    <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4" id="detailsList"></div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700">
+                    <h3 class="font-bold text-lg mb-4 flex items-center">
+                        <i class="fas fa-history mr-2 text-blue-500"></i> Recent History
+                    </h3>
+                    <div id="historyList" class="space-y-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_TOKEN = 'ba5ee7caa6522f';
+        let searchHistory = JSON.parse(localStorage.getItem('ip_history')) || [];
+
+        // --- Theme Logic ---
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            }
+        }
+
+        // --- Data Logic ---
+        function validateAndFetch() {
+            const ip = document.getElementById('ipInput').value.trim();
+            const errorMsg = document.getElementById('errorMsg');
+            const ipPattern = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}$/;
+            
+            if (ip !== "" && !ipPattern.test(ip)) {
+                errorMsg.classList.remove('hidden');
+                return;
+            }
+            errorMsg.classList.add('hidden');
+            fetchDetails(ip);
+        }
+
+        async function fetchDetails(ip) {
+            const loader = document.getElementById('loader');
+            const resultCard = document.getElementById('resultCard');
+            const list = document.getElementById('detailsList');
+            const flagWrapper = document.getElementById('flagWrapper');
+
+            loader.classList.remove('hidden');
+            resultCard.classList.add('hidden');
+
+            try {
+                const url = ip ? `https://ipinfo.io/${ip}/json?token=${API_TOKEN}` : `https://ipinfo.io/json?token=${API_TOKEN}`;
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.ip) {
+                    saveToHistory(data.ip, data.city, data.country);
+                    const countryCode = data.country.toLowerCase();
+                    flagWrapper.innerHTML = `<img src="https://flagcdn.com/w40/${countryCode}.png" class="rounded shadow-sm" alt="flag">`;
+
+                    const fields = [
+                        { label: 'IP Address', val: data.ip, icon: 'fa-network-wired' },
+                        { label: 'ISP', val: data.org, icon: 'fa-server' },
+                        { label: 'City', val: data.city, icon: 'fa-city' },
+                        { label: 'Region', val: data.region, icon: 'fa-map-signs' },
+                        { label: 'Location', val: data.loc, icon: 'fa-location-arrow' },
+                        { label: 'Timezone', val: data.timezone, icon: 'fa-clock' }
+                    ];
+
+                    list.innerHTML = fields.map(f => `
+                        <div class="p-4 bg-slate-50 dark:bg-slate-700/40 rounded-xl border border-slate-100 dark:border-slate-600 transition-colors">
+                            <p class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-widest mb-1">${f.label}</p>
+                            <p class="font-bold text-slate-800 dark:text-blue-300 truncate">${f.val || 'N/A'}</p>
+                        </div>
+                    `).join('');
+
+                    loader.classList.add('hidden');
+                    resultCard.classList.remove('hidden');
+                    renderHistory();
+                }
+            } catch (error) {
+                alert("API Error. Please check connection.");
+                loader.classList.add('hidden');
+            }
+        }
+
+        function saveToHistory(ip, city, country) {
+            searchHistory = searchHistory.filter(item => item.ip !== ip);
+            searchHistory.unshift({ ip, city, country });
+            if (searchHistory.length > 5) searchHistory.pop();
+            localStorage.setItem('ip_history', JSON.stringify(searchHistory));
+        }
+
+        function renderHistory() {
+            const container = document.getElementById('historyList');
+            if (searchHistory.length === 0) {
+                container.innerHTML = '<p class="text-slate-400 text-sm italic">No recent lookups.</p>';
+                return;
+            }
+            container.innerHTML = searchHistory.map(item => `
+                <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-700/60 rounded-xl border border-slate-100 dark:border-slate-700 cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 transition-all" onclick="fetchDetails('${item.ip}')">
+                    <div>
+                        <p class="text-xs font-bold text-blue-600 dark:text-blue-400">${item.ip}</p>
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400">${item.city}, ${item.country}</p>
+                    </div>
+                    <i class="fas fa-chevron-right text-slate-300 dark:text-slate-600 text-[10px]"></i>
+                </div>
+            `).join('');
+        }
+
+        // Initialize
+        window.onload = () => {
+            initTheme();
+            fetchDetails('');
+            renderHistory();
+        };
+    </script>
+</body>
+</html>
