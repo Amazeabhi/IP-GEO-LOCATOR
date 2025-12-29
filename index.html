@@ -3,27 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced IP Intelligence</title>
+    <title>IP Intelligence Pro | High-Tech</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script>
-        // Custom Tailwind Config for Dark Mode
-        tailwind.config = {
-            darkMode: 'class',
-        }
-    </script>
-</head>
-<body class="bg-slate-50 dark:bg-slate-900 font-sans text-slate-900 dark:text-slate-100 transition-colors duration-300">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
-    <div class="max-w-5xl mx-auto px-4 py-8">
-        <div class="flex justify-between items-center mb-10">
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    <style>
+        /* Ensure particles.js background covers the full page */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1; /* Place behind content */
+            background-color: #f1f5f9; /* Light mode default */
+            transition: background-color 0.5s ease;
+        }
+        html.dark #particles-js {
+            background-color: #020617; /* Dark mode background */
+        }
+        /* Custom Stagger Animation Delay */
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+        .delay-6 { animation-delay: 0.6s; }
+    </style>
+</head>
+<body class="font-sans text-slate-900 dark:text-slate-100 transition-colors duration-500">
+
+    <div id="particles-js"></div>
+
+    <div class="relative z-10 max-w-5xl mx-auto px-4 py-8">
+        <div class="flex justify-between items-center mb-10 animate__animated animate__fadeInDown">
             <div>
-                <h1 class="text-3xl font-extrabold text-blue-600 dark:text-blue-400">IP Intelligence Pro</h1>
-                <p class="text-slate-500 dark:text-slate-400">Professional IP Tracking & History</p>
+                <h1 class="text-3xl font-extrabold bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">IP Intelligence Pro</h1>
+                <p class="text-slate-500 dark:text-slate-400 font-medium">Professional Intelligence Dashboard</p>
             </div>
             
-            <button onclick="toggleTheme()" class="relative inline-flex items-center h-8 rounded-full w-14 bg-slate-300 dark:bg-blue-600 transition-colors focus:outline-none shadow-inner">
-                <span id="theme-icon" class="inline-block w-6 h-6 transform bg-white rounded-full transition-transform translate-x-1 dark:translate-x-7 flex items-center justify-center shadow">
+            <button onclick="toggleTheme()" class="relative inline-flex items-center h-8 rounded-full w-14 bg-slate-300 dark:bg-blue-600 transition-all duration-300 focus:outline-none shadow-lg active:scale-90">
+                <span id="theme-icon" class="inline-block w-6 h-6 transform bg-white rounded-full transition-transform duration-300 translate-x-1 dark:translate-x-7 flex items-center justify-center shadow-md">
                     <i class="fas fa-sun text-yellow-500 text-xs dark:hidden"></i>
                     <i class="fas fa-moon text-blue-800 text-xs hidden dark:block"></i>
                 </span>
@@ -32,50 +58,62 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div class="lg:col-span-2 space-y-6">
-                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700">
+                <div class="bg-white/80 dark:bg-slate-900/80 p-6 rounded-3xl shadow-xl border border-slate-200 dark:border-slate-800 animate__animated animate__fadeInLeft backdrop-blur-md">
                     <div class="flex flex-col md:flex-row gap-3">
                         <input type="text" id="ipInput" placeholder="Enter IP or Domain..." 
-                            class="flex-1 p-3 bg-slate-50 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all dark:placeholder-slate-400">
+                            class="flex-1 p-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl focus:ring-4 focus:ring-blue-500/20 outline-none transition-all dark:placeholder-slate-500 font-medium">
                         <button onclick="validateAndFetch()" 
-                            class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-bold transition-transform active:scale-95 shadow-lg shadow-blue-500/30">
+                            class="bg-blue-600 hover:bg-blue-700 hover:shadow-blue-500/40 text-white px-10 py-4 rounded-2xl font-bold transition-all transform active:scale-95 shadow-lg">
                             Lookup
                         </button>
                     </div>
-                    <p id="errorMsg" class="text-red-500 text-xs mt-2 hidden italic">Invalid IP format. Please try again.</p>
                 </div>
 
-                <div id="loader" class="hidden py-20 text-center">
-                    <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-blue-500 border-t-transparent"></div>
+                <div id="loader" class="hidden py-20 text-center animate__animated animate__fadeIn">
+                    <div class="relative inline-block">
+                        <div class="h-16 w-16 border-4 border-blue-500/20 rounded-full"></div>
+                        <div class="absolute top-0 left-0 h-16 w-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                    <p class="mt-4 text-slate-400 font-bold tracking-tighter animate-pulse">ANALYZING NETWORK...</p>
                 </div>
                 
-                <div id="resultCard" class="hidden bg-white dark:bg-slate-800 rounded-2xl shadow-xl overflow-hidden border border-slate-200 dark:border-slate-700 animate-in fade-in slide-in-from-bottom-4">
-                    <div class="bg-slate-100 dark:bg-slate-700/50 p-4 border-b dark:border-slate-600 flex justify-between items-center">
-                        <span class="font-bold uppercase tracking-widest text-xs text-slate-500 dark:text-slate-400">Intelligence Report</span>
-                        <span id="flagWrapper"></span>
+                <div id="resultCard" class="hidden space-y-4">
+                    <div class="bg-white/80 dark:bg-slate-900/80 rounded-3xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800 animate__animated animate__zoomInUp backdrop-blur-md">
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-5 border-b dark:border-slate-800 flex justify-between items-center">
+                            <span class="font-black uppercase tracking-widest text-[10px] text-slate-400">Live Intel Report</span>
+                            <div id="flagWrapper" class="animate__animated animate__backInRight"></div>
+                        </div>
+                        <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-6" id="detailsList"></div>
                     </div>
-                    <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4" id="detailsList"></div>
                 </div>
             </div>
 
-            <div class="space-y-6">
-                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700">
-                    <h3 class="font-bold text-lg mb-4 flex items-center">
-                        <i class="fas fa-history mr-2 text-blue-500"></i> Recent History
+            <div class="space-y-6 animate__animated animate__fadeInRight">
+                <div class="bg-white/80 dark:bg-slate-900/80 p-6 rounded-3xl shadow-lg border border-slate-200 dark:border-slate-800 backdrop-blur-md">
+                    <h3 class="font-bold text-lg mb-6 flex items-center">
+                        <i class="fas fa-history mr-3 text-blue-500"></i> Recent History
                     </h3>
-                    <div id="historyList" class="space-y-2"></div>
+                    <div id="historyList" class="space-y-3"></div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        const API_TOKEN = 'ba5ee7caa6522f';
+        const API_TOKEN = 'ba5ee7caa6522f'; // <--- UPDATE YOUR API TOKEN HERE
         let searchHistory = JSON.parse(localStorage.getItem('ip_history')) || [];
 
         // --- Theme Logic ---
         function toggleTheme() {
             const isDark = document.documentElement.classList.toggle('dark');
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            // Update particles.js theme if it's already loaded
+            if (window.pJSDom && window.pJSDom[0]) {
+                const pJS = window.pJSDom[0].pJS;
+                pJS.particles.color.value = isDark ? "#ffffff" : "#000000";
+                pJS.particles.line_linked.color = isDark ? "#ffffff" : "#000000";
+                pJS.fn.particlesDraw(); // Redraw particles
+            }
         }
 
         function initTheme() {
@@ -116,21 +154,22 @@
                 if (data.ip) {
                     saveToHistory(data.ip, data.city, data.country);
                     const countryCode = data.country.toLowerCase();
-                    flagWrapper.innerHTML = `<img src="https://flagcdn.com/w40/${countryCode}.png" class="rounded shadow-sm" alt="flag">`;
+                    flagWrapper.innerHTML = `<img src="https://flagcdn.com/h40/${countryCode}.png" class="h-8 rounded shadow-md border dark:border-slate-700" alt="flag">`;
 
                     const fields = [
                         { label: 'IP Address', val: data.ip, icon: 'fa-network-wired' },
-                        { label: 'ISP', val: data.org, icon: 'fa-server' },
-                        { label: 'City', val: data.city, icon: 'fa-city' },
-                        { label: 'Region', val: data.region, icon: 'fa-map-signs' },
-                        { label: 'Location', val: data.loc, icon: 'fa-location-arrow' },
+                        { label: 'Provider', val: data.org, icon: 'fa-server' },
+                        { label: 'Location', val: `${data.city}, ${data.region}`, icon: 'fa-map-marker-alt' },
                         { label: 'Timezone', val: data.timezone, icon: 'fa-clock' }
                     ];
 
-                    list.innerHTML = fields.map(f => `
-                        <div class="p-4 bg-slate-50 dark:bg-slate-700/40 rounded-xl border border-slate-100 dark:border-slate-600 transition-colors">
-                            <p class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-widest mb-1">${f.label}</p>
-                            <p class="font-bold text-slate-800 dark:text-blue-300 truncate">${f.val || 'N/A'}</p>
+                    list.innerHTML = fields.map((f, index) => `
+                        <div class="p-5 bg-slate-50 dark:bg-slate-800/40 rounded-2xl border border-slate-100 dark:border-slate-800 transition-all hover:scale-[1.03] hover:shadow-lg animate__animated animate__fadeInUp delay-${index}">
+                            <div class="flex items-center gap-3 mb-2 text-blue-500">
+                                <i class="fas ${f.icon}"></i>
+                                <p class="text-[10px] font-black uppercase tracking-widest">${f.label}</p>
+                            </div>
+                            <p class="font-bold text-slate-800 dark:text-white truncate text-lg">${f.val || 'N/A'}</p>
                         </div>
                     `).join('');
 
@@ -139,7 +178,7 @@
                     renderHistory();
                 }
             } catch (error) {
-                alert("API Error. Please check connection.");
+                alert("Connection error. Check API token.");
                 loader.classList.add('hidden');
             }
         }
@@ -154,23 +193,53 @@
         function renderHistory() {
             const container = document.getElementById('historyList');
             if (searchHistory.length === 0) {
-                container.innerHTML = '<p class="text-slate-400 text-sm italic">No recent lookups.</p>';
+                container.innerHTML = '<p class="text-slate-400 text-sm italic">Clean slate.</p>';
                 return;
             }
-            container.innerHTML = searchHistory.map(item => `
-                <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-700/60 rounded-xl border border-slate-100 dark:border-slate-700 cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 transition-all" onclick="fetchDetails('${item.ip}')">
+            container.innerHTML = searchHistory.map((item, i) => `
+                <div class="group flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-100 dark:border-slate-800 cursor-pointer hover:border-blue-500 transition-all animate__animated animate__fadeInRight delay-${i}" onclick="fetchDetails('${item.ip}')">
                     <div>
-                        <p class="text-xs font-bold text-blue-600 dark:text-blue-400">${item.ip}</p>
+                        <p class="text-sm font-bold text-slate-700 dark:text-slate-200 group-hover:text-blue-500 transition-colors">${item.ip}</p>
                         <p class="text-[10px] text-slate-500 dark:text-slate-400">${item.city}, ${item.country}</p>
                     </div>
-                    <i class="fas fa-chevron-right text-slate-300 dark:text-slate-600 text-[10px]"></i>
+                    <i class="fas fa-arrow-right text-slate-300 group-hover:translate-x-1 transition-transform"></i>
                 </div>
             `).join('');
+        }
+
+        // --- Particles.js Initialization ---
+        function initParticles(isDark) {
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+                    "color": { "value": isDark ? "#ffffff" : "#000000" }, // Dynamic color
+                    "shape": { "type": "circle", "stroke": { "width": 0, "color": "#000000" }, "polygon": { "nb_sides": 5 } },
+                    "opacity": { "value": 0.5, "random": false, "anim": { "enable": false, "speed": 1, "opacity_min": 0.1, "sync": false } },
+                    "size": { "value": 3, "random": true, "anim": { "enable": false, "speed": 40, "size_min": 0.1, "sync": false } },
+                    "line_linked": { "enable": true, "distance": 150, "color": isDark ? "#ffffff" : "#000000", "opacity": 0.4, "width": 1 },
+                    "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false, "attract": { "enable": false, "rotateX": 600, "rotateY": 1200 } }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
+                    "modes": {
+                        "grab": { "distance": 140, "line_linked": { "opacity": 1 } },
+                        "bubble": { "distance": 400, "size": 40, "duration": 2, "opacity": 8, "speed": 3 },
+                        "repulse": { "distance": 200, "duration": 0.4 },
+                        "push": { "particles_nb": 4 },
+                        "remove": { "particles_nb": 2 }
+                    }
+                },
+                "retina_detect": true
+            });
         }
 
         // Initialize
         window.onload = () => {
             initTheme();
+            // Pass initial theme state to particles.js
+            const isDark = document.documentElement.classList.contains('dark');
+            initParticles(isDark);
             fetchDetails('');
             renderHistory();
         };
