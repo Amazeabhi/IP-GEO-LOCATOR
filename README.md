@@ -1,71 +1,55 @@
 # 🌐 IP Intelligence Pro
 
-A high-performance, professional **IP Geolocation Explorer** built with modern web technologies. This tool allows users to instantly retrieve detailed intelligence about any IP address, including ISP data, geographic location with flag indicators, and a persistent search history.
-## 🚀 Live Demo
-
-Experience the tool live without any setup:
+A high-performance, **high-tech IP Geolocation Explorer** featuring a dynamic particle network, smooth staggered animations, and persistent intelligence tracking.
 
 [![Launch App](https://img.shields.io/badge/Launch_App-🚀-blue?style=for-the-badge&logo=rocket)](https://amazeabhi.github.io/IP-GEO-LOCATOR/)
 
 ---
 
+## ✨ Features
 
-
-## ✨ Key Features
-
-* **Real-time Lookup:** Fetches accurate country, region, city, and ISP details using the IPinfo API.
-* **Persistent Search History:** Automatically saves your last 5 searches using browser `localStorage`.
-* **Smart Dark Mode:** Seamlessly toggle between Light and Dark themes with a modern switch (persists on reload).
-* **Dynamic Flag Icons:** Displays the official country flag for every searched IP via FlagCDN.
-* **Input Validation:** Robust Regex validation for IPv4 and IPv6 addresses to prevent unnecessary API calls.
-* **Responsive Design:** Fully optimized for Mobile, Tablet, and Desktop using Tailwind CSS.
-* **One-Click Map:** Deep link integration to view exact coordinates on Google Maps.
+* **Cyber-Tech Interface:** Integrated `Particles.js` background for a modern, high-tech security aesthetic.
+* **Staggered Animations:** Results pop in sequentially using `Animate.css` for a premium user experience.
+* **Smart Dark Mode:** Persistent theme toggle with sun/moon micro-interactions and automatic system preference detection.
+* **Persistent History:** Saves your last 5 searches in `localStorage` so they remain available after page refreshes.
+* **Real-time Intelligence:** Powered by [IPinfo.io](https://ipinfo.io) for accurate ISP, ASN, and geographic data.
+* **Visual Indicators:** Dynamic country flags powered by [FlagCDN](https://flagcdn.com).
+* **Responsive Glassmorphism:** Fully mobile-responsive cards with frosted-glass blur effects.
 
 ---
 
 ## 🚀 Tech Stack
 
-* **Frontend:** HTML5, Tailwind CSS (Utility-first CSS)
-* **Icons:** FontAwesome 6
-* **Logic:** Vanilla JavaScript (ES6+), Fetch API
-* **API:** [IPinfo.io](https://ipinfo.io) (Geolocation Data source)
-* **Assets:** [FlagCDN](https://flagcdn.com) (Vector Flags)
+* **Styling:** [Tailwind CSS](https://tailwindcss.com) (Utility-first CSS)
+* **Animations:** [Animate.css](https://animate.style) & CSS3 Transitions
+* **Background:** [Particles.js](https://vincentgarreau.com/particles.js/)
+* **Icons:** FontAwesome 6 (Pro-style Solid)
+* **Data:** Fetch API (Vanilla JavaScript)
 
 ---
 
 ## 🛠️ Setup & Installation
 
-1.  **Clone the repository:**
+If you want to customize this project or run it locally:
+
+1.  **Clone the Repo:**
     ```bash
-    git clone [https://github.com/yourusername/ip-intelligence-pro.git](https://github.com/yourusername/ip-intelligence-pro.git)
+    git clone [https://github.com/amazeabhi/IP-GEO-LOCATOR.git](https://github.com/amazeabhi/IP-GEO-LOCATOR.git)
     ```
 
 2.  **Get your API Token:**
-    * Sign up at [IPinfo.io](https://ipinfo.io/signup) to get a free API token (Free tier supports 50k requests/month).
+    * Sign up at [IPinfo.io](https://ipinfo.io/signup) for a free token.
 
-3.  **Configure the Token:**
+3.  **Update the Script:**
     * Open `index.html`.
-    * Locate the line: `const API_TOKEN = 'your_token_here';`
-    * Replace it with your actual alphanumeric token.
+    * Replace `const API_TOKEN = '...'` with your alphanumeric token.
 
-4.  **Launch:**
-    * Simply open `index.html` in any modern web browser. No server setup is required!
-
----
-
-## 📸 Interface Preview
-
-| Feature | Description |
-| :--- | :--- |
-| **Search Bar** | Supports IP addresses and automatic detection of your own IP. |
-| **History Sidebar** | Quick access to your recently searched addresses. |
-| **Theme Toggle** | Dedicated button to switch between light and dark visual modes. |
+4.  **Run:**
+    * Open `index.html` in your browser. No server or `npm install` required!
 
 ---
 
-## 📂 Project Structure
 
-```text
 .
-├── index.html          # Core application (Logic, Styles, and UI)
-└── README.md           # Documentation
+├── index.html          # Single-file application (HTML, Tailwind, Particles, Logic)
+└── README.md           # Project Documentation
