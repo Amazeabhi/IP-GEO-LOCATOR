@@ -1,6 +1,13 @@
 # 🌐 IP Intelligence Pro
 
 A high-performance, professional **IP Geolocation Explorer** built with modern web technologies. This tool allows users to instantly retrieve detailed intelligence about any IP address, including ISP data, geographic location with flag indicators, and a persistent search history.
+## 🚀 Live Demo
+
+Experience the tool live without any setup:
+
+[![Launch App](https://img.shields.io/badge/Launch_App-🚀-blue?style=for-the-badge&logo=rocket)](https://amazeabhi.github.io/IP-GEO-LOCATOR/)
+
+---
 
 
 
