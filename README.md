@@ -18,7 +18,7 @@ A high-performance, **high-tech IP Geolocation Explorer** featuring a dynamic pa
 
 ---
 
-## 🚀 Tech Stack
+## 🚀 Tech Stack :
 
 * **Styling:** [Tailwind CSS](https://tailwindcss.com) (Utility-first CSS)
 * **Animations:** [Animate.css](https://animate.style) & CSS3 Transitions
