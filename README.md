@@ -53,3 +53,7 @@ If you want to customize this project or run it locally:
 .
 ├── index.html          # Single-file application (HTML, Tailwind, Particles, Logic)
 └── README.md           # Project Documentation
+
+
+🤝 Contributing
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
