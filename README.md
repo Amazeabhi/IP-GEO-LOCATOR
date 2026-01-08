@@ -24,7 +24,7 @@ A high-performance, **high-tech IP Geolocation Explorer** featuring a dynamic pa
 * **Animations:** [Animate.css](https://animate.style) & CSS3 Transitions
 * **Background:** [Particles.js](https://vincentgarreau.com/particles.js/)
 * **Icons:** FontAwesome 6 (Pro-style Solid)
-* **Data:** Fetch API (Vanilla JavaScript)
+* **Data:** Fetch API (Vanilla JavaScript):
 
 ---
 
